@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>💕 A Special Question For You 💕</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ===== CUSTOMIZE COLORS HERE ===== */
+      :root {
+        --primary-pink: #ff6b9d;
+        --deep-rose: #c44569;
+        --soft-pink: #ffd3e0;
+        --gold: #ffd700;
+        --white: #ffffff;
+        --heart-red: #e74c3c;
+      }
+      /* ================================= */
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        min-height: 100vh;
+        overflow: hidden;
+        background: linear-gradient(
+          135deg,
+          #ff9a9e 0%,
+          #fecfef 50%,
+          #fecfef 100%
+        );
+      }
+
+      /* Screen Container */
+      .screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.8s ease,
+          visibility 0.8s ease;
+      }
+
+      .screen.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Floating Hearts Background */
+      .hearts-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 0;
+      }
+
+      .floating-heart {
+        position: absolute;
+        font-size: 20px;
+        animation: floatHeart 15s infinite ease-in-out;
+        opacity: 0.6;
+      }
+
+      @keyframes floatHeart {
+        0%,
+        100% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.6;
+        }
+        90% {
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+
+      /* ===== LOGIN SCREEN ===== */
+      #login-screen {
+        background: linear-gradient(
+          135deg,
+          #667eea 0%,
+          #764ba2 50%,
+          #f093fb 100%
+        );
+      }
+
+      .login-container {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px 30px;
+        border-radius: 30px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        max-width: 380px;
+        width: 100%;
+        z-index: 10;
+        animation: pulseGlow 2s infinite;
+      }
+
+      @keyframes pulseGlow {
+        0%,
+        100% {
+          box-shadow:
+            0 25px 50px rgba(0, 0, 0, 0.2),
+            0 0 30px rgba(255, 107, 157, 0.3);
+        }
+        50% {
+          box-shadow:
+            0 25px 50px rgba(0, 0, 0, 0.2),
+            0 0 50px rgba(255, 107, 157, 0.6);
+        }
+      }
+
+      .login-title {
+        font-family: "Dancing Script", cursive;
+        font-size: 2.5rem;
+        color: var(--deep-rose);
+        margin-bottom: 10px;
+      }
+
+      .login-subtitle {
+        color: #888;
+        font-size: 0.9rem;
+        margin-bottom: 30px;
+      }
+
+      .login-heart {
+        font-size: 4rem;
+        animation: heartbeat 1.5s infinite;
+        margin-bottom: 20px;
+      }
+
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        15% {
+          transform: scale(1.15);
+        }
+        30% {
+          transform: scale(1);
+        }
+        45% {
+          transform: scale(1.1);
+        }
+      }
+
+      .code-input {
+        width: 100%;
+        padding: 18px 20px;
+        font-size: 1.1rem;
+        border: 3px solid var(--soft-pink);
+        border-radius: 15px;
+        text-align: center;
+        transition: all 0.3s ease;
+        outline: none;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .code-input:focus {
+        border-color: var(--primary-pink);
+        box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+      }
+
+      .code-input.shake {
+        animation: shake 0.5s ease;
+        border-color: #e74c3c;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        20% {
+          transform: translateX(-10px);
+        }
+        40% {
+          transform: translateX(10px);
+        }
+        60% {
+          transform: translateX(-10px);
+        }
+        80% {
+          transform: translateX(10px);
+        }
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 18px;
+        margin-top: 20px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: white;
+        background: linear-gradient(
+          135deg,
+          var(--primary-pink),
+          var(--deep-rose)
+        );
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(196, 69, 105, 0.4);
+      }
+
+      .error-msg {
+        color: #e74c3c;
+        margin-top: 15px;
+        font-size: 0.9rem;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .error-msg.show {
+        opacity: 1;
+      }
+
+      /* ===== QUESTION SCREEN ===== */
+      #question-screen {
+        background: linear-gradient(
+          135deg,
+          #ff9a9e 0%,
+          #fad0c4 50%,
+          #ffecd2 100%
+        );
+      }
+
+      .question-container {
+        text-align: center;
+        z-index: 10;
+      }
+
+      .question-text {
+        font-family: "Dancing Script", cursive;
+        font-size: clamp(2rem, 8vw, 3.5rem);
+        color: var(--deep-rose);
+        margin-bottom: 50px;
+        text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.8);
+        animation: fadeInUp 1s ease;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .buttons-container {
+        display: flex;
+        gap: 30px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .answer-btn {
+        padding: 20px 50px;
+        font-size: 1.3rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: "Poppins", sans-serif;
+        position: relative;
+      }
+
+      .yes-btn {
+        background: linear-gradient(135deg, #56ab2f, #a8e063);
+        color: white;
+        box-shadow: 0 10px 30px rgba(86, 171, 47, 0.4);
+      }
+
+      .yes-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 15px 40px rgba(86, 171, 47, 0.5);
+      }
+
+      .no-btn {
+        background: linear-gradient(135deg, #eb3349, #f45c43);
+        color: white;
+        box-shadow: 0 10px 30px rgba(235, 51, 73, 0.4);
+        position: absolute;
+        transition: all 0.2s ease;
+      }
+
+      .no-btn.shrinking {
+        transform: scale(0.5);
+      }
+
+      .escape-message {
+        position: fixed;
+        font-size: 1.5rem;
+        color: var(--deep-rose);
+        font-weight: 600;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 100;
+        animation: popMessage 1s ease forwards;
+      }
+
+      @keyframes popMessage {
+        0% {
+          opacity: 0;
+          transform: scale(0.5) translateY(0);
+        }
+        20% {
+          opacity: 1;
+          transform: scale(1.1);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(1) translateY(-50px);
+        }
+      }
+
+      /* ===== CELEBRATION SCREEN ===== */
+      #celebration-screen {
+        background: linear-gradient(
+          135deg,
+          #f093fb 0%,
+          #f5576c 50%,
+          #f093fb 100%
+        );
+      }
+
+      .celebration-container {
+        text-align: center;
+        z-index: 10;
+      }
+
+      .celebration-hearts {
+        font-size: 5rem;
+        animation: celebrationPulse 0.5s infinite alternate;
+      }
+
+      @keyframes celebrationPulse {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.2);
+        }
+      }
+
+      .celebration-text {
+        font-family: "Dancing Script", cursive;
+        font-size: clamp(2rem, 8vw, 3.5rem);
+        color: white;
+        margin: 30px 0;
+        text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.3);
+        animation: fadeInUp 1s ease;
+      }
+
+      .celebration-subtext {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.2rem;
+        animation: fadeInUp 1s ease 0.3s both;
+      }
+
+      /* Confetti */
+      .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        top: -10px;
+        animation: confettiFall 4s linear forwards;
+      }
+
+      @keyframes confettiFall {
+        to {
+          transform: translateY(110vh) rotate(720deg);
+        }
+      }
+
+      /* ===== POEM SCREEN ===== */
+      #poem-screen {
+        background: linear-gradient(
+          135deg,
+          #2c3e50 0%,
+          #3498db 50%,
+          #2c3e50 100%
+        );
+        overflow-y: auto;
+        justify-content: flex-start;
+        padding-top: 40px;
+        padding-bottom: 40px;
+      }
+
+      .poem-container {
+        text-align: center;
+        z-index: 10;
+        max-width: 600px;
+        width: 100%;
+        padding: 20px;
+        margin: auto;
+        min-height: min-content;
+      }
+
+      .poem-title {
+        font-family: "Dancing Script", cursive;
+        font-size: 2.5rem;
+        color: var(--gold);
+        margin-bottom: 40px;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .poem-line {
+        font-size: clamp(0.9rem, 3.5vw, 1.3rem);
+        color: white;
+        line-height: 1.8;
+        opacity: 0;
+        animation: typewriterFade 1s ease forwards;
+        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+        margin-bottom: 5px;
+      }
+
+      @keyframes typewriterFade {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .poem-signature {
+        font-family: "Dancing Script", cursive;
+        font-size: 1.5rem;
+        color: var(--primary-pink);
+        margin-top: 30px;
+        opacity: 0;
+      }
+
+      .replay-btn {
+        margin-top: 25px;
+        margin-bottom: 20px;
+        padding: 12px 35px;
+        font-size: 0.95rem;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: "Poppins", sans-serif;
+        opacity: 0;
+      }
+
+      .replay-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Floating Hearts Background -->
+    <div class="hearts-bg" id="hearts-bg"></div>
+
+    <!-- SCREEN 1: Login -->
+    <div class="screen active" id="login-screen">
+      <div class="login-container">
+        <div class="login-heart">💕</div>
+        <h1 class="login-title">Hello Beautiful</h1>
+        <p class="login-subtitle">Enter our special code to continue...</p>
+        <input
+          type="text"
+          class="code-input"
+          id="code-input"
+          placeholder="Enter the secret code"
+          autocomplete="off"
+        />
+        <button class="submit-btn" id="submit-btn">Open My Heart 💝</button>
+        <p class="error-msg" id="error-msg">
+          Hmm, that's not it... Try again! 💭
+        </p>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: Question -->
+    <div class="screen" id="question-screen">
+      <div class="question-container">
+        <h1 class="question-text">Will You Be My Valentine? 💕</h1>
+        <div class="buttons-container">
+          <button class="answer-btn yes-btn" id="yes-btn">Yes! 💚</button>
+        </div>
+        <button class="answer-btn no-btn" id="no-btn">No 😢</button>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: Celebration -->
+    <div class="screen" id="celebration-screen">
+      <div class="celebration-container">
+        <div class="celebration-hearts">💕💖💕</div>
+        <h1 class="celebration-text">You've Made Me So Happy!</h1>
+        <p class="celebration-subtext">I knew you'd say yes! 🥰</p>
+      </div>
+    </div>
+
+    <!-- SCREEN 4: Poem -->
+    <div class="screen" id="poem-screen">
+      <div class="poem-container">
+        <h2 class="poem-title">For You, My Love 💝</h2>
+        <div id="poem-content"></div>
+        <p class="poem-signature" id="poem-signature">Forever Yours ❤️</p>
+        <button class="replay-btn" id="replay-btn">Read Again 💕</button>
+      </div>
+    </div>
+
+    <script>
+      // ╔════════════════════════════════════════════════════════════════════╗
+      // ║                     ✨ CUSTOMIZE HERE ✨                           ║
+      // ║  Change these values to personalize for your special someone!      ║
+      // ╚════════════════════════════════════════════════════════════════════╝
+
+      const SECRET_CODE = "sunshine"; // 👈 Change to your girlfriend's nickname or special date
+
+      const POEM_LINES = [
+        "In your eyes, I found my home,",
+        "In your heart, I'm never alone.",
+        "Every moment spent with you,",
+        "Makes my dreams come true.",
+        "",
+        "Your smile lights up my darkest days,",
+        "Your love guides me in countless ways.",
+        "With every beat, my heart will say,",
+        "I love you more each passing day.",
+        "",
+        "So here I am, down on one knee—",
+        "Well, virtually! 😄—asking thee:",
+        "Be my Valentine, my love, my friend,",
+        "My heart is yours until the end. 💕",
+      ];
+
+      const SIGNATURE = "Forever Yours, Your Love ❤️"; // 👈 Add your name here!
+
+      // ╔════════════════════════════════════════════════════════════════════╗
+      // ║                   END OF CUSTOMIZATION SECTION                      ║
+      // ╚════════════════════════════════════════════════════════════════════╝
+
+      // DOM Elements
+      const loginScreen = document.getElementById("login-screen");
+      const questionScreen = document.getElementById("question-screen");
+      const celebrationScreen = document.getElementById("celebration-screen");
+      const poemScreen = document.getElementById("poem-screen");
+      const codeInput = document.getElementById("code-input");
+      const submitBtn = document.getElementById("submit-btn");
+      const errorMsg = document.getElementById("error-msg");
+      const yesBtn = document.getElementById("yes-btn");
+      const noBtn = document.getElementById("no-btn");
+      const poemContent = document.getElementById("poem-content");
+      const poemSignature = document.getElementById("poem-signature");
+      const replayBtn = document.getElementById("replay-btn");
+      const heartsBg = document.getElementById("hearts-bg");
+
+      // Escape messages for the "No" button
+      const escapeMessages = [
+        "Nice try! 😏",
+        "Nope! 🙈",
+        "Can't escape love! 💕",
+        "Not happening! 😄",
+        "Think again! 💭",
+        "Wrong button! 😉",
+        "Love finds a way! 💖",
+        "Keep trying! 🎯",
+        "Almost! But no! 😜",
+      ];
+
+      let escapeCount = 0;
+
+      // Create floating hearts
+      function createFloatingHearts() {
+        const hearts = ["💕", "💖", "💗", "💓", "💝", "❤️", "🩷", "🤍"];
+        for (let i = 0; i < 20; i++) {
+          const heart = document.createElement("span");
+          heart.className = "floating-heart";
+          heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+          heart.style.left = Math.random() * 100 + "%";
+          heart.style.animationDelay = Math.random() * 15 + "s";
+          heart.style.fontSize = Math.random() * 20 + 15 + "px";
+          heartsBg.appendChild(heart);
+        }
+      }
+
+      // Switch screens
+      function switchScreen(from, to) {
+        from.classList.remove("active");
+        setTimeout(() => {
+          to.classList.add("active");
+        }, 400);
+      }
+
+      // Login handler
+      submitBtn.addEventListener("click", checkCode);
+      codeInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") checkCode();
+      });
+
+      function checkCode() {
+        const enteredCode = codeInput.value.trim().toLowerCase();
+        if (enteredCode === SECRET_CODE.toLowerCase()) {
+          switchScreen(loginScreen, questionScreen);
+          initNoButton();
+        } else {
+          codeInput.classList.add("shake");
+          errorMsg.classList.add("show");
+          setTimeout(() => {
+            codeInput.classList.remove("shake");
+          }, 500);
+        }
+      }
+
+      // Initialize "No" button position
+      function initNoButton() {
+        const container = questionScreen;
+        noBtn.style.left = "50%";
+        noBtn.style.top = "70%";
+        noBtn.style.transform = "translate(-50%, -50%)";
+      }
+
+      // "No" button escape behavior
+      noBtn.addEventListener("mouseenter", escapeNoButton);
+      noBtn.addEventListener("touchstart", escapeNoButton);
+      noBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        showEscapeMessage(
+          e.clientX || e.touches?.[0]?.clientX || window.innerWidth / 2,
+          e.clientY || e.touches?.[0]?.clientY || window.innerHeight / 2,
+        );
+        escapeNoButton();
+      });
+
+      function escapeNoButton() {
+        escapeCount++;
+
+        // Show escape message
+        const rect = noBtn.getBoundingClientRect();
+        showEscapeMessage(rect.left + rect.width / 2, rect.top);
+
+        // Move to random position
+        const maxX = window.innerWidth - 150;
+        const maxY = window.innerHeight - 80;
+        const newX = Math.random() * maxX;
+        const newY = Math.random() * maxY;
+
+        noBtn.style.left = newX + "px";
+        noBtn.style.top = newY + "px";
+        noBtn.style.transform = "translate(0, 0)";
+
+        // After several escapes, make it shrink
+        if (escapeCount > 5) {
+          noBtn.classList.add("shrinking");
+        }
+
+        // After many escapes, hide it completely
+        if (escapeCount > 10) {
+          noBtn.style.opacity = "0";
+          noBtn.style.pointerEvents = "none";
+        }
+      }
+
+      function showEscapeMessage(x, y) {
+        const msg = document.createElement("div");
+        msg.className = "escape-message";
+        msg.textContent =
+          escapeMessages[Math.floor(Math.random() * escapeMessages.length)];
+        msg.style.left = x + "px";
+        msg.style.top = y + "px";
+        document.body.appendChild(msg);
+        setTimeout(() => msg.remove(), 1000);
+      }
+
+      // "Yes" button handler
+      yesBtn.addEventListener("click", () => {
+        switchScreen(questionScreen, celebrationScreen);
+        createConfetti();
+        setTimeout(() => {
+          switchScreen(celebrationScreen, poemScreen);
+          displayPoem();
+        }, 4000);
+      });
+
+      // Create confetti
+      function createConfetti() {
+        const colors = [
+          "#ff6b9d",
+          "#ffd700",
+          "#56ab2f",
+          "#f093fb",
+          "#667eea",
+          "#ff9a9e",
+        ];
+        for (let i = 0; i < 100; i++) {
+          setTimeout(() => {
+            const confetti = document.createElement("div");
+            confetti.className = "confetti";
+            confetti.style.left = Math.random() * 100 + "%";
+            confetti.style.backgroundColor =
+              colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
+            confetti.style.width = Math.random() * 10 + 5 + "px";
+            confetti.style.height = Math.random() * 10 + 5 + "px";
+            confetti.style.animationDuration = Math.random() * 2 + 2 + "s";
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 4000);
+          }, i * 30);
+        }
+      }
+
+      // Display poem with animation
+      function displayPoem() {
+        poemContent.innerHTML = "";
+        POEM_LINES.forEach((line, index) => {
+          const lineEl = document.createElement("p");
+          lineEl.className = "poem-line";
+          lineEl.textContent = line || "\u00A0"; // Non-breaking space for empty lines
+          lineEl.style.animationDelay = index * 0.8 + "s";
+          poemContent.appendChild(lineEl);
+        });
+
+        // Show signature after poem
+        const totalDelay = POEM_LINES.length * 0.8 + 1;
+        poemSignature.textContent = SIGNATURE;
+        poemSignature.style.animation = `typewriterFade 1s ease ${totalDelay}s forwards`;
+
+        // Show replay button
+        replayBtn.style.animation = `typewriterFade 1s ease ${totalDelay + 0.5}s forwards`;
+      }
+
+      // Replay poem
+      replayBtn.addEventListener("click", () => {
+        poemSignature.style.animation = "none";
+        poemSignature.style.opacity = "0";
+        replayBtn.style.animation = "none";
+        replayBtn.style.opacity = "0";
+        setTimeout(() => {
+          displayPoem();
+        }, 100);
+      });
+
+      // Initialize
+      createFloatingHearts();
+    </script>
+  </body>
+</html>
